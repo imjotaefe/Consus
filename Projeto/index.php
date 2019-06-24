@@ -1,3 +1,7 @@
+<?php
+  session_start();
+  include('./php/checkSession.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,6 +1,10 @@
 <?php
-  session_start();
-  include('./php/checkSession.php');
+session_start();
+include('./php/checkSession.php');
+include('./php/connection.php');
+include('./php/checkStoreId.php');
+include('./php/querySuaLoja.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -246,11 +250,7 @@
 
           <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">Inadimplentes</h1>
-          <form action="./php/inadimp.php" method="POST" >
-            <input type="text" id="passaCpf" name="passaCpf">
-            <button type="submit" name="search" id="search">Buscar</button>
-          </form>
-          <p class="mb-4">Inadimplentes em qualquer loja serão mostrados na tabela abaixo.</p>
+          <p class="mb-4">Inadimplentes em seu sistema serão mostrados na tabela abaixo.</p>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -262,22 +262,42 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>Id</th>
                       <th>Nome</th>
                       <th>Local da Inadimplência</th>
                       <th>Obeservação</th>
                       <th>Valor</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    <?php while ($dadoSuaLoja = mysqli_fetch_assoc($dadosSuaLoja)) { ?>
+                      <tr>
+                        <td><?php echo $dadoSuaLoja["debt_id"];  ?></td>
+                        <td><?php echo $dadoSuaLoja["debtor_name"];  ?></td>
+                        <td><?php echo $dadoSuaLoja["store_social_name"]; ?></td>
+                        <td><?php echo $dadoSuaLoja["debt_observation"]; ?></td>
+                        <td><?php echo $dadoSuaLoja["debt_value"]; ?></td>
+                        <td>
+                          <a href="#" class="btn btn-danger btn-circle btn-sm dButton" name="deleteButton" id="<?php echo $dadoSuaLoja["debt_id"];  ?>">
+                            <i class="fas fa-trash"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    <?php } ?>
+                  </tbody>
+
                   <tfoot>
                     <tr>
+                      <th>Id</th>
                       <th>Nome</th>
                       <th>Local da Inadimplência</th>
                       <th>Obeservação</th>
                       <th>Valor</th>
+                      <th>Ação</th>
                     </tr>
                   </tfoot>
                   <tbody id="popular">
-                    <td valign="top" colspan="4" class="dataTables_empty">Nenhum resultado encontrado.</td>
                   </tbody>
                 </table>
               </div>
@@ -355,43 +375,25 @@
 </html>
 
 <script>
-  $corpo = document.querySelector('#popular'); //seleciona a id da tabela para popular
-
-  //Quando uma tabela não apresenta resultado, seta a variável $vazio
-  $vazio = '<td valign="top" colspan="4" class="dataTables_empty">Nenhum resultado encontrado.</td>'
-
   $(document).ready(function() {
-    $('#search').click(function() {
-
-      //Quando clicar no botão, limpa a tabela e estabelece o $vazio
-      $corpo.innerHTML = $vazio;
-
-      var id = $('#passaCpf').val(); //Recebe o valor da pesquisa
-      if (id != '') { //se o campo for diferente de vazio
-        $.ajax({
-          url: "./php/inadimp.php", //chama o documento .php, envia o valor da id com método post
-          method: "POST", //utilizando o ajax e retornando em um formato JSON
-          data: {
-            id: id
-          },
-          dataType: "JSON",
-          success: function(data) {
-            if (!jQuery.isEmptyObject(data)) { //se o json retornado for diferente de vazio
-              $corpo.innerHTML = ''; // limpa a tabela e preenche com o JSON
-              for (i in data) {
-                $valor = parseFloat(data[i].valor).toFixed(2);
-                $row = '<tr><td>' + data[i].nome + '</td><td>' + data[i].loja + '</td><td>' + data[i].obs + '</td><td>R$' + $valor + '</td></tr>';
-                $corpo.insertAdjacentHTML('beforeend', $row); // adciona no html
-              }
-            } else {
-              $corpo.innerHTML = $vazio; //se ele for vazio, passa a variável vazio para a tabela
+    $('.dButton').click(function() {
+      var r = confirm("Deseja remover?");
+      if (r == true) {
+        var id = this.id //Recebe o valor da pesquisa
+        if (id != '') { //se o campo for diferente de vazio
+          $.ajax({
+            url: "./php/deleteInadimp.php", //chama o documento .php, envia o valor da id com método post
+            method: "POST", //utilizando o ajax e retornando em um formato JSON
+            data: {
+              id: id
+            },
+            dataType: "JSON",
+            success: function(data) {
+              location.reload(true)
             }
-          }
-        })
-      } else {
-        $corpo.innerHTML = $vazio; //se o campo digitado for vazio, passa a variável vazio para a tabela
+          })
+        }
       }
-      $('#passaCpf').val(''); //limpa o campo após clicar no botão
     });
   });
 </script>
