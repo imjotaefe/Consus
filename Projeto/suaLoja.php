@@ -4,7 +4,7 @@ include('./php/checkSession.php');
 include('./php/connection.php');
 include('./php/checkStoreId.php');
 include('./php/querySuaLoja.php');
-
+include('./php/checkStoreName.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,20 +29,19 @@ include('./php/querySuaLoja.php');
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/modal.css" />
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 </head>
 
 <body id="page-top">
-
   <!-- Page Wrapper -->
   <div id="wrapper">
-
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="far fa-money-bill-alt"></i>
         </div>
@@ -50,100 +49,93 @@ include('./php/querySuaLoja.php');
       </a>
 
       <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <hr class="sidebar-divider my-0" />
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Principal</span></a>
       </li>
 
       <!-- Divider -->
-      <hr class="sidebar-divider">
+      <hr class="sidebar-divider" />
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Inadimplencias
+        Inadimplência
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link" href="devedores.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-search"></i>
           <span>Consultar</span></a>
       </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="cadastrar.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <a class="nav-link" href="cadastrar.php">
+          <i class="fas fa-user-plus"></i>
           <span>Cadastrar</span></a>
       </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Editar</span></a>
-      </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
 
       <!-- Divider -->
-      <hr class="sidebar-divider">
+      <hr class="sidebar-divider" />
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Você
+        Sua Loja
       </div>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Sua loja</span></a>
+        <a class="nav-link" href="suaLoja.php">
+          <i class="fas fa-database"></i>
+          <span>Inadimplentes</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="config.php">
+          <i class="fas fa-cogs"></i>
+          <span>Configurações</span></a>
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
+        <a class="nav-link" href="./php/doLogout.php">
+          <i class="fas fa-sign-out-alt"></i>
           <span>Sair</span></a>
       </li>
 
-
       <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+      <hr class="sidebar-divider d-none d-md-block" />
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
-
     </ul>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
       <!-- Main Content -->
       <div id="content">
-
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
 
-
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
-
             <!-- Nav Item - Search Dropdown (Visible Only XS) -->
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -153,7 +145,7 @@ include('./php/querySuaLoja.php');
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div class="input-group-append">
                       <button class="btn btn-primary" type="button">
                         <i class="fas fa-search fa-sm"></i>
@@ -164,84 +156,30 @@ include('./php/querySuaLoja.php');
               </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
-              <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
-
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Loja02</span>
-                <img class="img-profile rounded-circle" src="https://secure.gravatar.com/avatar/2878929bb6f05c2aeeeb55a7be076916?s=64&d=mm&r=g">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $storeName; ?></span>
+                <i class="fas fa-angle-down"></i>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="suaLoja.php">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Sua Loja
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="config.php">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Configurações
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="./php/doLogout.php">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Sair
                 </a>
               </div>
             </li>
-
           </ul>
-
         </nav>
         <!-- End of Topbar -->
 
@@ -267,20 +205,27 @@ include('./php/querySuaLoja.php');
                       <th>Local da Inadimplência</th>
                       <th>Obeservação</th>
                       <th>Valor</th>
-                      <th>Ação</th>
+                      <th>Deletar</th>
+                      <th>Editar</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php while ($dadoSuaLoja = mysqli_fetch_assoc($dadosSuaLoja)) { ?>
                       <tr>
-                        <td><?php echo $dadoSuaLoja["debt_id"];  ?></td>
+                        <td><?php echo $dadoSuaLoja["debt_id"];
+                            $id = $dadoSuaLoja["debt_id"]; ?></td>
                         <td><?php echo $dadoSuaLoja["debtor_name"];  ?></td>
                         <td><?php echo $dadoSuaLoja["store_social_name"]; ?></td>
                         <td><?php echo $dadoSuaLoja["debt_observation"]; ?></td>
-                        <td><?php echo $dadoSuaLoja["debt_value"]; ?></td>
+                        <td>R$<?php echo $dadoSuaLoja["debt_value"]; ?></td>
                         <td>
                           <a href="#" class="btn btn-danger btn-circle btn-sm dButton" name="deleteButton" id="<?php echo $dadoSuaLoja["debt_id"];  ?>">
                             <i class="fas fa-trash"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <a href="#" class="btn btn-primary btn-circle btn-sm eButton" name="editButton" id="<?php echo $dadoSuaLoja["debt_id"];  ?>">
+                            <i class="fas fa-pencil-alt"></i>
                           </a>
                         </td>
                       </tr>
@@ -294,7 +239,8 @@ include('./php/querySuaLoja.php');
                       <th>Local da Inadimplência</th>
                       <th>Obeservação</th>
                       <th>Valor</th>
-                      <th>Ação</th>
+                      <th>Deletar</th>
+                      <th>Editar</th>
                     </tr>
                   </tfoot>
                   <tbody id="popular">
@@ -334,24 +280,7 @@ include('./php/querySuaLoja.php');
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -370,11 +299,77 @@ include('./php/querySuaLoja.php');
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
 
+  <div id="modal-inadimplencia" class="modal-container">
+    <div class="modal">
+      <form action="./php/updateQuery.php" method="POST">
+        <fieldset>
+          <legend><span class="number">1</span>Dados Cadastrais</legend>
+          <input type="text" id="modalNome" name="modalNome" placeholder="Nome" readonly />
+          <input type="text" id="modalCpf" name="modalCpf" placeholder="CPF" readonly />
+          <input type="text" id="modalRG" name="modalRG" placeholder="RG" readonly />
+          <input type="text" id="modalValor" name="modalValor" placeholder="Valor da dívida" />
+          <legend><span class="number">2</span>Observação</legend>
+          <textarea name="modalObs" id="modalObs" placeholder="Informações adicionais" rows="3" cols="30"></textarea>
+          <div class="buttonContainer">
+            <input class="confirmar" type="submit" value="Confirmar" />
+            <button type="button" id="form-fechar">
+              Cancelar
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <script src="./js/modal.js"></script>
+
 </body>
 
 </html>
 
 <script>
+  $(document).ready(function() {
+    $('.eButton').click(function() {
+      var id = this.id
+      console.log(id);
+
+      if (id != "") {
+        //se o campo for diferente de vazio
+        $.ajax({
+          url: "./php/updateInadimp.php", //chama o documento .php, envia o valor da id com método post
+          method: "POST", //utilizando o ajax e retornando em um formato JSON
+          data: {
+            id: id
+          },
+          dataType: "JSON",
+          success: function(data) {
+            if (!jQuery.isEmptyObject(data)) {
+              //se o json retornado for diferente de vazio
+              for (i in data) {
+                $valor = parseFloat(data[i].valor).toFixed(2);
+                $('#modalNome').val(data[i].nome);
+                $('#modalCpf').val(data[i].cpf);
+                $('#modalRG').val(data[i].rg);
+                $('#modalValor').val($valor);
+                $('#modalObs').val(data[i].obs);
+              }
+            } else {
+
+            }
+          }
+        });
+      } else {
+
+      }
+      inicialModal('modal-inadimplencia');
+      $('#modalNome').val('');
+      $('#modalCpf').val('');
+      $('#modalRG').val('');
+      $('#modalValor').val('');
+      $('#modalObs').val('');
+    });
+  });
+
   $(document).ready(function() {
     $('.dButton').click(function() {
       var r = confirm("Deseja remover?");

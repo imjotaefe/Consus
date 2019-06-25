@@ -23,6 +23,7 @@
     
     $queryInsertDebt = "INSERT INTO `Debt`(`store_id`, `debtor_id`, `debt_updatedAt`, `debt_createdAt`, `debt_observation`, `debt_value`) VALUES('$storeId','$cpf','$data','$data','$obs','$valor')";
     mysqli_query($con, $queryInsertDebt);
+    header('Location: ../cadastrar.php');
 
 
 

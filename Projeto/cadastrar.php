@@ -15,17 +15,13 @@ include('./php/checkStoreName.php');
 
   <title>Consus</title>
 
-  <!-- Custom fonts for this template -->
+  <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 
-  <!-- Custom styles for this template -->
+  <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
-  <link href="./css/devedores.css" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <link href="css/cadastrar.css" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -175,52 +171,31 @@ include('./php/checkStoreName.php');
           </ul>
         </nav>
         <!-- End of Topbar -->
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <!-- DataTales Example -->
-          <div class="card-shadow mb-4">
+          <h1 class="h3 mb-4 text-gray-800">Cadastrar Inadimplência</h1>
+          <!-- Basic Card Example -->
+          <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h4 class="m-0 font-weight-bold text-primary">
-                Inadimplencias
-              </h4>
+              <h6 class="m-0 font-weight-bold text-primary">Registro</h6>
             </div>
             <div class="card-body">
-              <div class="pesquisa">
-                <form id="form-inadimplencias" action="./php/inadimp.php" method="POST">
-                  <input type="text" id="passaCpf" name="passaCpf" placeholder="CPF do inadimplente" />
-                  <button type="button" name="search" id="search">
-                    Buscar
-                  </button>
-                </form>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Nome</th>
-                      <th>Local da Inadimplência</th>
-                      <th>Obeservação</th>
-                      <th>Valor</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Nome</th>
-                      <th>Local da Inadimplência</th>
-                      <th>Obeservação</th>
-                      <th>Valor</th>
-                    </tr>
-                  </tfoot>
-                  <tbody id="popular">
-                    <td valign="top" colspan="4" class="dataTables_empty">
-                      Nenhum resultado encontrado.
-                    </td>
-                  </tbody>
-                </table>
-              </div>
-              <div></div>
+              <form method="POST" action="./php/registerInadimp.php">
+                <fieldset>
+                  <legend>
+                    <span class="number">1</span>Dados Cadastrais
+                  </legend>
+                  <input type="text" name="nome" placeholder="Nome" />
+                  <input type="text" name="cpf" placeholder="CPF" />
+                  <input type="text" name="rg" placeholder="RG" />
+                  <input type="text" name="valor" placeholder="Valor da dívida" />
+                  <legend><span class="number">2</span>Observação</legend>
+                  <textarea name="obs" placeholder="Informações adicionais" rows="3" cols="30"></textarea>
+
+                  <input type="submit" value="Cadastrar" />
+                </fieldset>
+              </form>
             </div>
           </div>
         </div>
@@ -279,66 +254,6 @@ include('./php/checkStoreName.php');
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
-
-<script>
-  $corpo = document.querySelector("#popular"); //seleciona a id da tabela para popular
-
-  //Quando uma tabela não apresenta resultado, seta a variável $vazio
-  $vazio =
-    '<td valign="top" colspan="4" class="dataTables_empty">Nenhum resultado encontrado.</td>';
-
-  $(document).ready(function() {
-    $("#search").click(function() {
-      //Quando clicar no botão, limpa a tabela e estabelece o $vazio
-      $corpo.innerHTML = $vazio;
-
-      var id = $("#passaCpf").val(); //Recebe o valor da pesquisa
-      if (id != "") {
-        //se o campo for diferente de vazio
-        $.ajax({
-          url: "./php/inadimp.php", //chama o documento .php, envia o valor da id com método post
-          method: "POST", //utilizando o ajax e retornando em um formato JSON
-          data: {
-            id: id
-          },
-          dataType: "JSON",
-          success: function(data) {
-            if (!jQuery.isEmptyObject(data)) {
-              //se o json retornado for diferente de vazio
-              $corpo.innerHTML = ""; // limpa a tabela e preenche com o JSON
-              for (i in data) {
-                $valor = parseFloat(data[i].valor).toFixed(2);
-                $row =
-                  "<tr><td>" +
-                  data[i].nome +
-                  "</td><td>" +
-                  data[i].loja +
-                  "</td><td>" +
-                  data[i].obs +
-                  "</td><td>R$" +
-                  $valor +
-                  "</td></tr>";
-                $corpo.insertAdjacentHTML("beforeend", $row); // adciona no html
-              }
-            } else {
-              $corpo.innerHTML = $vazio; //se ele for vazio, passa a variável vazio para a tabela
-            }
-          }
-        });
-      } else {
-        $corpo.innerHTML = $vazio; //se o campo digitado for vazio, passa a variável vazio para a tabela
-      }
-      $("#passaCpf").val(""); //limpa o campo após clicar no botão
-    });
-  });
-</script>

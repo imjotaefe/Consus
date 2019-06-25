@@ -1,0 +1,65 @@
+.card-body {
+  max-width: 100%;
+  padding: 10px 20px;
+  background: #f4f7f8;
+  margin: 10px auto;
+  padding: 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#form-inadimplencias {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card-body legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-style: oblique;
+}
+.card-body input[type="text"],
+.card-body textarea {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  margin: 0;
+  outline: 0;
+  padding: 10px;
+  width: 25%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  margin-bottom: 10px;
+}
+.card-body input[type="text"]:focus,
+.card-body textarea:focus,
+.card-body select:focus {
+  background: #d2d9dd;
+}
+
+.card-body .pesquisa button {
+  position: relative;
+  display: block;
+  padding: 5px 39px 5px 39px;
+  margin: 0 auto;
+  color: #fff;
+  background: #4e73df;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  width: 25%;
+  border: 1px solid #4e73df;
+  border-width: 1px 1px 3px;
+  margin-bottom: 10px;
+}
+.card-body .pesquisa button:hover {
+  background: #053bdd;
+}
