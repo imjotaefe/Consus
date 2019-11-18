@@ -7,7 +7,7 @@ include('./php/querySuaLoja.php');
 include('./php/checkStoreName.php');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 
@@ -211,12 +211,12 @@ include('./php/checkStoreName.php');
                   </thead>
                   <tbody>
                     <?php while ($dadoSuaLoja = mysqli_fetch_assoc($dadosSuaLoja)) { ?>
-                      <tr>
+                      <tr class = "table@J">
                         <td><?php echo $dadoSuaLoja["debt_id"];
                             $id = $dadoSuaLoja["debt_id"]; ?></td>
-                        <td><?php echo $dadoSuaLoja["debtor_name"];  ?></td>
+                        <td class = "break"><?php echo $dadoSuaLoja["debtor_name"];  ?></td>
                         <td><?php echo $dadoSuaLoja["store_social_name"]; ?></td>
-                        <td><?php echo $dadoSuaLoja["debt_observation"]; ?></td>
+                        <td class = "brek"><?php echo $dadoSuaLoja["debt_observation"]; ?></td>
                         <td>R$<?php echo $dadoSuaLoja["debt_value"]; ?></td>
                         <td>
                           <a href="#" class="btn btn-danger btn-circle btn-sm dButton" name="deleteButton" id="<?php echo $dadoSuaLoja["debt_id"];  ?>">

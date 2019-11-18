@@ -4,7 +4,7 @@ include('./php/checkSession.php');
 include('./php/checkStoreName.php');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 

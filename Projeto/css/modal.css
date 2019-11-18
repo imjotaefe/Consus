@@ -1,3 +1,13 @@
+.table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table td {
+  word-wrap: break-word; /* All browsers since IE 5.5+ */
+  overflow-wrap: break-word; /* Renamed property in CSS3 draft spec */
+}
+
 .modal-container {
   width: 100vw;
   height: 100vh;
@@ -32,7 +42,7 @@
 
 .modal {
   width: 60% !important;
-  min-height: 500px!important;
+  min-height: 500px !important;
   min-width: 500px;
   padding: 40px;
   border: 10px solid #053bdd;
